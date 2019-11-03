@@ -6,7 +6,7 @@ img_path <- "R/img"
 
 Exploratory data visualization is perhaps the greatest strength of R. One can quickly go from idea to data to plot with a unique balance of flexibility and ease. For example, Excel may be easier than R for some plots, but it is nowhere near as flexible. D3.js may be more flexible and powerful than R, but it takes much longer to generate a plot.
 
-Throughout the book, we will be creating plots using the __ggplot2__^[http://ggplot2.org] package. 
+Throughout the book, we will be creating plots using the __ggplot2__^[https://ggplot2.tidyverse.org/] package. 
 
 ```{r, message=FALSE, warning=FALSE}
 library(dplyr)
@@ -115,7 +115,7 @@ p
 ## Geometries
 
 In `ggplot2` we create graphs by adding _layers_. Layers can define geometries, compute summary statistics, define what scales to use, or even change styles.
-To add layers, we use the the symbol `+`. In general, a line of code will look like this:
+To add layers, we use the symbol `+`. In general, a line of code will look like this:
 
 >> DATA %>% `ggplot()` + LAYER 1 + LAYER 2 + ... + LAYER N
 

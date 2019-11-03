@@ -29,7 +29,7 @@ library(dslabs)
 data(heights)
 ```
 
-One way to convey the heights to ET is to simply send him this list of `r nrow(heights)` heights. But there are much more effective ways to convey this information, and understanding the concept of a distribution will help. To simplify the explanation, we first focus on male heights. We examine the female height data in Section \@ref(student-height-cont) .
+One way to convey the heights to ET is to simply send him this list of `r nrow(heights)` heights. But there are much more effective ways to convey this information, and understanding the concept of a distribution will help. To simplify the explanation, we first focus on male heights. We examine the female height data in Section \@ref(student-height-cont).
 
 ## Distribution function
 
@@ -74,7 +74,7 @@ heights %>% filter(sex=="Male") %>% ggplot(aes(height)) +
 
 Similar to what the frequency table does for categorical data, the CDF
 defines the distribution for numerical data. From the plot, we can see that `r round(ecdf(heights$height[heights$sex=="Male"])(66)*100)`% of the values are below 65, since $F(66)=$ `r ecdf(heights$height[heights$sex=="Male"])(66)`, or that `r round(ecdf(heights$height[heights$sex=="Male"])(72)*100)`% of the values are below 72, since $F(72)=$ `r ecdf(heights$height[heights$sex=="Male"])(72)`, 
-etc.. In fact, we can report the proportion of values between any two heights, say $a$ and $b$, by computing $F(b) - F(a)$. This means that if we send this plot above to ET, he will have all the information needed to reconstruct the entire list. Paraphrasing the expression "a picture is worth a thousand words", in this case, a picture is as informative as `r sum(heights$sex=="Male")` numbers. 
+and so on. In fact, we can report the proportion of values between any two heights, say $a$ and $b$, by computing $F(b) - F(a)$. This means that if we send this plot above to ET, he will have all the information needed to reconstruct the entire list. Paraphrasing the expression "a picture is worth a thousand words", in this case, a picture is as informative as `r sum(heights$sex=="Male")` numbers. 
 
 A final note: because CDFs can be defined mathematically the word _empirical_ is added to make the distinction when data is used.  We therefore use the term empirical CDF (eCDF). 
 
@@ -264,7 +264,7 @@ d. The colors, not the height of the bars, describe the distribution.
 
 
 ```{r ecdf-exercise, echo=FALSE}
-heights %>% filter(sex=="Male") %>% ggplot(aes(height)) + 
+heights %>% filter(sex == "Male") %>% ggplot(aes(height)) + 
   stat_ecdf() +
   ylab("F(a)") + xlab("a")
 ```
@@ -313,7 +313,7 @@ d. With the exception of 4 states, the murder rates are below 5 per 100,000.
 
 ```{r height-histogram-exercise, echo=FALSE}
 heights %>% 
-  filter(sex=="Male") %>% 
+  filter(sex == "Male") %>% 
   ggplot(aes(height)) + 
   geom_histogram(binwidth = 1, color = "black")
 ```
@@ -404,7 +404,7 @@ which can be interpreted as the average distance between values and their averag
 Let's compute the values for the height for males which we will store in the object $x$:
 
 ```{r}
-index <- heights$sex=="Male"
+index <- heights$sex == "Male"
 x <- heights$height[index]
 ```
 
@@ -421,7 +421,7 @@ Here is a plot of the smooth density and the normal distribution with mean  = `r
 norm_dist <- data.frame(x = seq(-4, 4, len=50)*s + m) %>% 
   mutate(density = dnorm(x, m, s))
 
-heights %>% filter(sex=="Male") %>% ggplot(aes(height)) +
+heights %>% filter(sex == "Male") %>% ggplot(aes(height)) +
   geom_density(fill="#0099FF") +
   geom_line(aes(x, density),  data = norm_dist, lwd=1.5) 
 ```
@@ -518,7 +518,7 @@ qplot(theoretical_quantiles, sample_quantiles) + geom_abline()
 The above code is included to help describe QQ-plots. However, in practice it is easier to use the **ggplot2** code described in Section \@ref(other-geometries): 
 
 ```{r, eval=FALSE}
-heights %>% filter(sex=="Male") %>%
+heights %>% filter(sex == "Male") %>%
   ggplot(aes(sample = scale(height))) + 
   geom_qq() +
   geom_abline()
@@ -575,7 +575,7 @@ We discuss how to make boxplots in Section \@ref(other-geometries).
 
 In data analysis we often divide observations into groups based on the values of one or more variables associated with those observations. For example in the next section we divide the height values into groups based on a sex variable: females and males. We call this procedure _stratification_ and refer to the resulting groups as _strata_. 
 
-Stratification is common in data visualization because we are often interested in how the distribution of variables differ across different subgroups. We will see several examples throughout this part of the book. We will revisit the concept of stratification when we learn regression in Chapter \@ref(regression) and in the Machine Learning part of the book.
+Stratification is common in data visualization because we are often interested in how the distribution of variables differs across different subgroups. We will see several examples throughout this part of the book. We will revisit the concept of stratification when we learn regression in Chapter \@ref(regression) and in the Machine Learning part of the book.
 
 ## Case study: describing student heights (continued) {#student-height-cont}
 
@@ -593,10 +593,10 @@ The plot immediately reveals that males are, on average, taller than females. Th
  
 
 ```{r histogram-qqplot-female-heights, echo=FALSE, out.width="100%",  fig.width = 6, fig.height = 3}
-p1 <- heights %>% filter(sex=="Female") %>%
+p1 <- heights %>% filter(sex == "Female") %>%
   ggplot(aes(height)) +
   geom_density(fill="#F8766D") 
-p2 <- heights %>% filter(sex=="Female") %>% 
+p2 <- heights %>% filter(sex == "Female") %>% 
   ggplot(aes(sample=scale(height))) +
   geom_qq() + geom_abline() + ylab("Standard Units")
 grid.arrange(p1, p2, ncol=2)
@@ -608,7 +608,7 @@ However, go back and read Tukey's quote. We have noticed what we didn't expect t
 
 Regarding the five smallest values, note that these values are:
 ```{r}
-heights %>% filter(sex=="Female") %>% 
+heights %>% filter(sex == "Female") %>% 
   top_n(5, desc(height)) %>%
   pull(height)
 ```
@@ -623,8 +623,8 @@ Because these are reported heights, a possibility is that the student meant to e
 ```{r, eval=FALSE}
 library(dslabs)
 data(heights)
-male <- heights$height[heights$sex=="Male"]
-female <- heights$height[heights$sex=="Female"]
+male <- heights$height[heights$sex == "Male"]
+female <- heights$height[heights$sex == "Female"]
 ```
 
 How many measurements do we have for each?
